@@ -1,0 +1,19 @@
+{
+  "name": "crawler-latino",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "rm -rf out/** data/** && tsc && node out/crawler.js"
+  },
+  "dependencies": {
+    "@types/cheerio": "^0.22.3",
+    "@types/node": "^8.0.34",
+    "@types/request-promise-native": "^1.0.7",
+    "@types/winston": "^2.3.6",
+    "cheerio": "^1.0.0-rc.2",
+    "request": "^2.83.0",
+    "request-promise-native": "^1.0.5",
+    "winston": "^2.4.0"
+  }
+}
