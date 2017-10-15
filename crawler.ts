@@ -1,11 +1,12 @@
 import * as cheerio from "cheerio";
 import * as rp from "request-promise-native";
-import { writeFile as writeFile_ } from "fs";
+import { writeFile as writeFile_, readdir as readdir_ } from "fs";
 import { promisify } from "util";
 import { join } from "path";
 import * as winston from "winston";
 
 const writeFile = promisify(writeFile_);
+const readdir = promisify(readdir_);
 
 function get_next_link($: CheerioStatic) {
   return $("a[href^='/dizionario-latino-italiano.php?browse']")[0].attribs[
@@ -32,7 +33,14 @@ async function download_and_process_word_page(url: string) {
   });
   log("downloaded main word page");
 
-  await writeFile(join("./data", url.split("=")[1]) + ".html", res);
+  const filename = join("./data", url.split("=")[1]) + ".html";
+
+  // Check if file exists
+  if (filename in (await readdir("./data"))) {
+    throw `Filename ${filename} exists so we are finished`;
+  }
+
+  await writeFile(filename, res);
   log("saved main word page");
 
   const $_main_page = cheerio.load(res);
@@ -106,7 +114,6 @@ async function crawl() {
     );
     // await download_and_process_word_page(word_links[2]);
     url = get_full_url(next_link);
-    break;
   }
 }
 

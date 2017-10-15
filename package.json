@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start":
-      "mkdir -p data && rm -rf out/** data/** && tsc && node out/crawler.js"
+    "start": "mkdir -p data && rm -rf out/** data/** && tsc && node out/crawler.js"
   },
   "dependencies": {
     "@types/cheerio": "^0.22.3",
@@ -15,6 +14,7 @@
     "cheerio": "^1.0.0-rc.2",
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
+    "typescript": "^2.5.3",
     "winston": "^2.4.0"
   }
 }
