@@ -28,19 +28,18 @@ async function download_and_process_word_page(url: string) {
   // Word relative logging function
   const log: any = (...args: any[]) => winston.info(url.split("=")[1], ...args);
 
+  const filename = url.split("=")[1] + ".html";
+  if ((await readdir("./data")).indexOf(filename) > -1) {
+    log("Duplicate found, skipping");
+    return;
+  }
+
   const res = await rp({
     url: get_full_url(url)
   });
   log("downloaded main word page");
 
-  const filename = join("./data", url.split("=")[1]) + ".html";
-
-  // Check if file exists
-  if (filename in (await readdir("./data"))) {
-    throw `Filename ${filename} exists so we are finished`;
-  }
-
-  await writeFile(filename, res);
+  await writeFile(join("./data", filename), res);
   log("saved main word page");
 
   const $_main_page = cheerio.load(res);
